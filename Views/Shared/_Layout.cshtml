@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <script src="~/libs/axios/axios.min.js" asp-append-version="true"></script>
+    <link href="~/libs/bootstrap/bootstrap.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/libs/toastr/toastr.min.css" rel="stylesheet" />
+    <link href="~/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" asp-append-version="true" />
+    @await RenderSectionAsync("styles", false)
+</head>
+<body>
+    <div class="container my-4">
+        @RenderBody()
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="restaurant-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="restaurant-modal-title" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="restaurant-modal-title"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="restaurant-modal-body">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <!-- Bootstrap v5.0.0-beta2 -->
+    <script src="~/libs/bootstrap/bootstrap.bundle.min.js" asp-append-version="true"></script>
+    <!-- Bootstrap v5.0.0-beta2 -->
+    <!-- jQuery v3.6.0 -->
+    <script src="~/libs/jquery/jquery.min.js" asp-append-version="true"></script>
+    <!-- jQuery v3.6.0 -->
+
+    <script src="~/libs/jquery-validate/jquery.validate.min.js" asp-append-version="true"></script>
+    <script src="~/libs/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>
+    <script src="~/libs/toastr/toastr.min.js" asp-append-version="true"></script>
+    <script src="~/libs/sweetalert2/sweetalert2.min.js" asp-append-version="true"></script>
+    <script>
+        let validationClasses = { validClass: "is-valid", errorClass: "is-invalid" };
+        $.validator.setDefaults(validationClasses);
+        $.validator.unobtrusive.options = validationClasses;
+
+        toastr.options.progressBar = true;
+        toastr.options.timeOut = 10000;
+        toastr.options.extendedTimeOut = 5000;
+        toastr.options.closeButton = true;
+    </script>
+
+
+
+
+    @await RenderSectionAsync("scripts", false)
+</body>
+</html>

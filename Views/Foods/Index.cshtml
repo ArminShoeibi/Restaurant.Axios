@@ -1,0 +1,154 @@
+﻿
+@{
+    ViewData["Title"] = "Foods";
+}
+
+<button id="create-food-button" class="btn btn-success">Create Food</button>
+
+<div class="row">
+    <div class="col" id="foods-table"></div>
+</div>
+
+
+@section scripts {
+    <script>
+
+        /* Initializing Modal */
+        let restaurantModalElement = document.getElementById('restaurant-modal');
+
+        let restaurantModal = new bootstrap.Modal(restaurantModalElement, {
+            keyboard: false,
+            focus: true,
+            backdrop:'static',
+        });
+        /* Initializing Modal */
+
+
+        /* Partial Page Update for Foods Table */
+         function getAllFoods() {
+            axios.get('@Url.Action("GetAllFoods", "Foods")')
+                 .then(function (response) {
+                    $("#foods-table").html(response.data);
+                 });
+        }
+        /* Partial Page Update for Foods Table */
+
+        $(function () {
+            getAllFoods();
+        });
+
+
+        /* Create Food */
+        $("#create-food-button").on('click', (event) => {
+            axios.get('@Url.Action("CreateFood","Foods")')
+                 .then(function (response) {
+                    $("#restaurant-modal-title").html("Create Food");
+                    $("#restaurant-modal-body").html(response.data);
+                    restaurantModal.show();
+                 });
+        });
+        /* Create Food */
+
+        function updateFood(foodId) {
+           axios.get(`@Url.Action("UpdateFood","Foods")/${foodId}`)
+                .then(function (response) {
+                    $("#restaurant-modal-title").html("Update Food");
+                    $("#restaurant-modal-body").html(response.data);
+                    restaurantModal.show();
+                });
+        }
+
+        function deleteFood(foodId) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Are you sure?',
+                text: 'You will not be able to recover this food!',
+                showCancelButton: true,
+                cancelButtonText: 'No, keep it',
+                confirmButtonText: 'Yes, delete it!',
+
+            }).then((response) => {
+                if (response.isConfirmed) {
+                    axios.post(`@Url.Action("DeleteFood", "Foods")/${foodId}`)
+                        .then(function (response) {
+                            Swal.fire('Deleted!', 'the food has been deleted.', 'success');
+                            getAllFoods();
+                         })
+                         .catch(function (exception) {
+                             toastr.error(exception);
+                         });
+                }
+            });
+
+
+
+        }
+
+        $("#restaurant-modal").on("shown.bs.modal", function(event) {
+            $.validator.unobtrusive.parse($('form'));
+
+            /* Create Food */
+            $("#create-food-form").on("submit", function (event) {
+                event.preventDefault();
+
+                let createFoodForm = $(this);
+                createFoodForm.validate();
+                let isCreateFoodFormValid = createFoodForm.valid();
+
+                if (isCreateFoodFormValid) {
+                    /* https://api.jquery.com/get/ */
+                    let formData = new FormData(createFoodForm.get(0));
+
+                    axios.post('@Url.Action("CreateFood", "Foods")', formData)
+                         .then(function (response) {
+                            if (response.data.success) {
+                                toastr.success(response.data.message, response.data.title);
+                                restaurantModal.hide();
+                                getAllFoods();
+                            }
+                            else {
+                                toastr.error(response.data.message, response.data.title);
+                            }
+                         })
+                         .catch(function (exception) {
+                            toastr.error(exception);
+                         });
+
+                }
+            });
+            /* Create Food */
+
+            /* Update Food */
+            $("#update-food-form").on("submit", function (event) {
+                event.preventDefault();
+
+                let updateFoodForm = $(this);
+                updateFoodForm.validate();
+                let isupdateFoodFormValid = updateFoodForm.valid();
+
+                if (isupdateFoodFormValid) {
+                    /* https://api.jquery.com/get/ */
+                    let formData = new FormData(updateFoodForm.get(0));
+
+                    axios.post('@Url.Action("UpdateFood", "Foods")', formData)
+                         .then(function (response) {
+                            if (response.data.success) {
+                                toastr.success(response.data.message, response.data.title);
+                                restaurantModal.hide();
+                                getAllFoods();
+                            }
+                            else {
+                                toastr.error(response.data.message, response.data.title);
+                            }
+                         })
+                         .catch(function (exception) {
+                            toastr.error(exception);
+                         });
+
+                }
+            });
+            /* Update Food */
+        });
+
+    </script>
+}

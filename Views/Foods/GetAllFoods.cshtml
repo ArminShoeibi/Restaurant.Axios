@@ -1,0 +1,41 @@
+﻿@model List<FoodViewModel>
+
+
+<div class="table-responsive">
+    <table class="table table-bordered caption-top">
+        <caption>List of Foods</caption>
+        <thead class="table-light">
+            <tr>
+                <th>Photo</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Ingredients</th>
+                <th>Nationality</th>
+                <th>DateCreated</th>
+                <th>DateModified</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var food in Model)
+            {
+                <tr>
+                    <td style="width:200px">
+                        <img asp-append-version="true" class="img-fluid img-thumbnail" alt="@food.Name" src="/images/foods/@food.PhotoPath" loading="lazy" />
+                    </td>
+                    <td>@food.Name</td>
+                    <td>@food.Description</td>
+                    <td>@food.Ingredients</td>
+                    <td>@food.Nationality</td>
+                    <td>@food.DateCreated</td>
+                    <td>@food.DateModified</td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-primary" onclick="updateFood(@(food.FoodId))">Update</button>
+                        <button class="btn btn-sm btn-outline-danger" onclick="deleteFood(@(food.FoodId))">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,41 @@
+﻿@model UpdateFoodDto 
+
+<form id="update-food-form" method="post" enctype="multipart/form-data">
+    <input asp-for="FoodId" hidden />
+    <input asp-for="PhotoPath" hidden />
+
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control">
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Nationality" class="form-label"></label>
+        <input asp-for="Nationality" class="form-control">
+        <span asp-validation-for="Nationality" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+
+    <div class="mb-3">
+        <label asp-for="Ingredients" class="form-label"></label>
+        <textarea asp-for="Ingredients" class="form-control"></textarea>
+        <span asp-validation-for="Ingredients" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Photo" class="form-label"></label>
+        <input asp-for="Photo" class="form-control">
+    </div>
+
+
+    <div class="d-grid gap-2">
+        <input type="submit" class="btn btn-success" value="Update" />
+    </div>
+</form>
